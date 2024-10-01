@@ -28,7 +28,11 @@
    {:db/ident       :transaction/type
     :db/valueType   :db.type/keyword
     :db/cardinality :db.cardinality/one
-    :db/doc         "Transaction type"}])
+    :db/doc         "Transaction type"}
+   {:db/ident       :transaction/amount
+    :db/valueType   :db.type/bigdec
+    :db/cardinality :db.cardinality/one
+    :db/doc         "Transaction amount"}])
 
 (s/defschema Transaction
   (assoc models.transaction/Transaction

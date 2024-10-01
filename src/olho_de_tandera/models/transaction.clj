@@ -12,6 +12,7 @@
    :transaction/title          s/Str
    :transaction/description    s/Str
    :transaction/created-at     LocalDateTime
+   :transaction/amount         s/Num
    :transaction/type           TransactionType})
 
 (s/defschema Transaction transaction)

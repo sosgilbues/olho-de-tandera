@@ -1,8 +1,8 @@
 (ns olho-de-tandera.db.datomic.transaction
   (:require [common-clj.integrant-components.datomic :as component.datomic]
+            [datomic.api :as d]
             [olho-de-tandera.adapters.transaction :as adapters.transaction]
             [olho-de-tandera.models.transaction :as models.transaction]
-            [datomic.api :as d]
             [schema.core :as s]))
 
 (s/defn insert! :- models.transaction/Transaction

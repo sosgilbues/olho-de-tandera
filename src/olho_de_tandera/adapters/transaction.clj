@@ -7,21 +7,23 @@
             [schema.core :as s]))
 
 (s/defn wire->internal :- models.transaction/Transaction
-  [{:keys [reference-date type title description]} :- wire.in.transaction/Transaction]
+  [{:keys [reference-date type title description amount]} :- wire.in.transaction/Transaction]
   {:transaction/id             (random-uuid)
    :transaction/reference-date (jt/local-date reference-date)
    :transaction/created-at     (jt/local-date-time)
    :transaction/type           (keyword type)
    :transaction/title          title
-   :transaction/description    description})
+   :transaction/description    description
+   :transaction/amount         (bigdec amount)})
 
 (s/defn internal->wire :- wire.out.transaction/Transaction
-  [{:transaction/keys [id reference-date title description type]} :- wire.in.transaction/Transaction]
+  [{:transaction/keys [id reference-date title description type amount]} :- models.transaction/Transaction]
   {:id             (str id)
    :reference-date (str reference-date)
    :title          title
    :description    description
-   :type           (str type)})
+   :type           (name type)
+   :amount         amount})
 
 (s/defn internal->database :- wire.database.transaction/Transaction
   [{:transaction/keys [created-at reference-date] :as transaction} :- models.transaction/Transaction]
