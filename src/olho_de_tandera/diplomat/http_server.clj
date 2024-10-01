@@ -4,4 +4,7 @@
 
 (def routes [["/api/transactions"
               :post [(common-traceability/http-with-correlation-id diplomat.http-server.transaction/create!)]
-              :route-name :create-transaction]])
+              :route-name :create-transaction]
+             ["/api/transactions"
+              :get [(common-traceability/http-with-correlation-id diplomat.http-server.transaction/fetch-all)]
+              :route-name :fetch-all-transactions]])

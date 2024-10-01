@@ -2,6 +2,7 @@
   (:require [common-clj.integrant-components.datomic :as component.datomic]
             [olho-de-tandera.adapters.transaction :as adapters.transaction]
             [olho-de-tandera.models.transaction :as models.transaction]
+            [datomic.api :as d]
             [schema.core :as s]))
 
 (s/defn insert! :- models.transaction/Transaction
@@ -10,3 +11,11 @@
   (-> (component.datomic/transact-and-lookup-entity! :transaction/id (adapters.transaction/internal->database transaction) datomic)
       :entity
       adapters.transaction/database->internal))
+
+(s/defn lookup-all :- [models.transaction/Transaction]
+  [database]
+  (-> (d/q '[:find (pull ?transaction [*])
+             :in $
+             :where [?transaction :transaction/id _]] database)
+      (->> (mapv first))
+      (->> (mapv #(-> % (dissoc :db/id) adapters.transaction/database->internal)))))

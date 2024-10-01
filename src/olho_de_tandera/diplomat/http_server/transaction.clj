@@ -10,3 +10,9 @@
    :body   {:transaction (-> (adapters.transaction/wire->internal transaction)
                              (controllers.transaction/create! datomic)
                              adapters.transaction/internal->wire)}})
+
+(s/defn fetch-all
+  [{{:keys [datomic]} :components}]
+  {:status 200
+   :body   {:transactions (->> (controllers.transaction/fetch-all datomic)
+                               (map adapters.transaction/internal->wire))}})
