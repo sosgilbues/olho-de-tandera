@@ -1,4 +1,7 @@
-(ns olho-de-tandera.wire.datomic.transaction)
+(ns olho-de-tandera.wire.datomic.transaction
+  (:require [olho-de-tandera.models.transaction :as models.transaction]
+            [schema.core :as s])
+  (:import (java.util Date)))
 
 (def transaction
   [{:db/ident       :transaction/id
@@ -26,3 +29,8 @@
     :db/valueType   :db.type/keyword
     :db/cardinality :db.cardinality/one
     :db/doc         "Transaction type"}])
+
+(s/defschema Transaction
+  (assoc models.transaction/Transaction
+         :transaction/created-at Date
+         :transaction/reference-date Date))

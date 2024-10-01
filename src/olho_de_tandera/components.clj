@@ -1,16 +1,16 @@
 (ns olho-de-tandera.components
-  (:require [integrant.core :as ig]
-            [taoensso.timbre :as timbre]
-            [olho-de-tandera.db.datomic.config :as database.config]
-            [olho-de-tandera.diplomat.http-server :as diplomat.http-server]
-            [common-clj.integrant-components.aws-auth]
+  (:require [common-clj.integrant-components.aws-auth]
             [common-clj.integrant-components.config]
             [common-clj.integrant-components.datomic]
-            [common-clj.integrant-components.prometheus]
             [common-clj.integrant-components.http-client]
             [common-clj.integrant-components.new-relic]
+            [common-clj.integrant-components.prometheus]
             [common-clj.integrant-components.routes]
-            [common-clj.integrant-components.service]))
+            [common-clj.integrant-components.service]
+            [integrant.core :as ig]
+            [olho-de-tandera.db.datomic.config :as database.config]
+            [olho-de-tandera.diplomat.http-server :as diplomat.http-server]
+            [taoensso.timbre :as timbre]))
 
 (def config
   {:common-clj.integrant-components.aws-auth/aws-auth       {:components {:config (ig/ref :common-clj.integrant-components.config/config)}}
