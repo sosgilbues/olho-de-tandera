@@ -10,7 +10,8 @@
             [integrant.core :as ig]
             [olho-de-tandera.db.datomic.config :as database.config]
             [olho-de-tandera.diplomat.http-server :as diplomat.http-server]
-            [taoensso.timbre :as timbre]))
+            [taoensso.timbre :as timbre])
+  (:gen-class))
 
 (def config
   {:common-clj.integrant-components.aws-auth/aws-auth       {:components {:config (ig/ref :common-clj.integrant-components.config/config)}}
