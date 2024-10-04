@@ -23,4 +23,4 @@
     {:keys [datomic]}        :components}]
   {:status 200
    :body   {:transaction (some->> (controllers.transaction/fetch-one (UUID/fromString transaction-id) datomic)
-                                  (map adapters.transaction/internal->wire))}})
+                                  adapters.transaction/internal->wire)}})
