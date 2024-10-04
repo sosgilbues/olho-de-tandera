@@ -12,3 +12,8 @@
 (s/defn fetch-all :- [models.transaction/Transaction]
   [datomic]
   (database.transaction/lookup-all (d/db datomic)))
+
+(s/defn fetch-one :- models.transaction/Transaction
+  [transaction-id :- s/Uuid
+   datomic]
+  (database.transaction/lookup transaction-id (d/db datomic)))

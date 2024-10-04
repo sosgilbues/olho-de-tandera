@@ -19,3 +19,13 @@
              :where [?transaction :transaction/id _]] database)
       (->> (mapv first))
       (->> (mapv #(-> % (dissoc :db/id) adapters.transaction/database->internal)))))
+
+(s/defn lookup :- (s/maybe models.transaction/Transaction)
+  [transaction-id :- s/Uuid
+   database]
+  (some-> (d/q '[:find (pull ?transaction [*])
+                 :in $ ?transaction-id
+                 :where [?transaction :transaction/id ?transaction-id]] database transaction-id)
+          ffirst
+          (dissoc :db/id)
+          adapters.transaction/database->internal))

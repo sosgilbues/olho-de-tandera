@@ -7,4 +7,7 @@
               :route-name :create-transaction]
              ["/api/transactions"
               :get [(common-traceability/http-with-correlation-id diplomat.http-server.transaction/fetch-all)]
-              :route-name :fetch-all-transactions]])
+              :route-name :fetch-all-transactions]
+             ["/api/transactions/:transaction-id"
+              :get [(common-traceability/http-with-correlation-id diplomat.http-server.transaction/fetch-one)]
+              :route-name :fetch-one-transaction]])
