@@ -10,9 +10,12 @@
             [olho-de-tandera.models.transaction :as models.transaction]
             [schema.test :as s]))
 
+(def transaction-id (random-uuid))
+
 (def internal-transaction
   (test.helper.schema/generate models.transaction/Transaction
-                               {:transaction/reference-date (jt/local-date "2024-01-01")
+                               {:transaction/id             transaction-id
+                                :transaction/reference-date (jt/local-date "2024-01-01")
                                 :transaction/type           :debit
                                 :transaction/amount         100.0M}))
 
@@ -39,3 +42,13 @@
                    {:transaction/id   uuid?
                     :transaction/type :credit}]
                   (database.transaction/lookup-all (d/db datomic)))))))
+
+(s/deftest lookup-test
+  (let [datomic (component.datomic/mocked-datomic database.config/schemas)]
+
+    (database.transaction/insert! internal-transaction datomic)
+
+    (testing "Should be able to query transaction by ID"
+      (is (match? {:transaction/id   transaction-id
+                   :transaction/type :debit}
+                  (database.transaction/lookup transaction-id (d/db datomic)))))))
